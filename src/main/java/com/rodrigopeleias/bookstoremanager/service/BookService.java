@@ -1,24 +1,30 @@
 package com.rodrigopeleias.bookstoremanager.service;
 
+import com.rodrigopeleias.bookstoremanager.dto.BookDTO;
 import com.rodrigopeleias.bookstoremanager.dto.MessageResponseDTO;
 import com.rodrigopeleias.bookstoremanager.entity.Book;
+import com.rodrigopeleias.bookstoremanager.mapper.BookMapper;
 import com.rodrigopeleias.bookstoremanager.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
+
 
 @Service
 public class BookService {
 
-    private BookRepository bookRepository;
+    private final BookRepository bookRepository;
+
+    private final BookMapper bookMapper = BookMapper.INSTANCE;
 
     @Autowired
     public BookService(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
 
-    public MessageResponseDTO create(Book book){
-        Book savedBook = bookRepository.save(book);
+    public MessageResponseDTO create(BookDTO bookDTO){
+        Book bookTosave = bookMapper.toModel(bookDTO);
+
+        Book savedBook = bookRepository.save(bookTosave);
         return MessageResponseDTO.builder().massage("Book created with ID").build();
     }
 
