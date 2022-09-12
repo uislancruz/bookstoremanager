@@ -17,7 +17,7 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    //testando GIT
     @Column(nullable = false, unique = true)
     private String name;
 
